@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>365 Days Since We Met</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0a0612; color: #fce7f3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; overflow-x: hidden; min-height: 100vh; position: relative; user-select: none; -webkit-user-select: none;">
+
+    <!-- Background Particle Canvas -->
+    <canvas id="bgCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
+
+    <!-- Main Content Container -->
+    <main style="position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 40px 16px 80px 16px; display: flex; flex-direction: column; gap: 70px; box-sizing: border-box;">
+
+        <!-- Main Title & Live Counters -->
+        <section style="min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+            <h1 style="font-size: clamp(2.5rem, 7vw, 5.5rem); margin: 0 0 8px 0; color: #ff4d8d; text-shadow: 0 0 20px rgba(255, 77, 141, 0.6), 0 0 40px rgba(217, 70, 239, 0.4); text-align: center; letter-spacing: 1px; line-height: 1.15; font-weight: 800;">
+                365 DAYS SINCE WE MET
+            </h1>
+
+            <h2 style="font-size: clamp(2rem, 5.5vw, 4rem); margin: 0 0 16px 0; color: #ff4d8d; text-shadow: 0 0 20px rgba(255, 77, 141, 0.7), 0 0 40px rgba(255, 133, 162, 0.5); text-align: center; letter-spacing: 1.5px; line-height: 1.15; font-weight: 800; text-transform: uppercase;">
+                SEPTEMBER 18, 2025
+            </h2>
+
+            <p style="font-style: italic; font-size: clamp(1.1rem, 3.5vw, 1.75rem); color: rgba(252, 231, 243, 0.9); max-width: 600px; margin: 0 0 40px 0; text-align: center; font-weight: 300;">
+                "Not just a date, but the exact moment everything changed."
+            </p>
+
+            <!-- Main Live Counter Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; width: 100%; max-width: 750px; margin-bottom: 24px; box-sizing: border-box;">
+                <div style="background: rgba(20, 10, 40, 0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 77, 141, 0.25); border-radius: 20px; padding: 20px 12px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
+                    <div id="countDays" style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: #ff4d8d; text-shadow: 0 0 15px rgba(255, 77, 141, 0.5); line-height: 1;">365</div>
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(252, 231, 243, 0.6); margin-top: 8px; font-weight: 600;">Days</div>
+                </div>
+                <div style="background: rgba(20, 10, 40, 0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 77, 141, 0.25); border-radius: 20px; padding: 20px 12px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
+                    <div id="countHours" style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: #ff4d8d; text-shadow: 0 0 15px rgba(255, 77, 141, 0.5); line-height: 1;">00</div>
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(252, 231, 243, 0.6); margin-top: 8px; font-weight: 600;">Hours</div>
+                </div>
+                <div style="background: rgba(20, 10, 40, 0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 77, 141, 0.25); border-radius: 20px; padding: 20px 12px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
+                    <div id="countMins" style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: #ff4d8d; text-shadow: 0 0 15px rgba(255, 77, 141, 0.5); line-height: 1;">00</div>
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(252, 231, 243, 0.6); margin-top: 8px; font-weight: 600;">Minutes</div>
+                </div>
+                <div style="background: rgba(20, 10, 40, 0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 77, 141, 0.25); border-radius: 20px; padding: 20px 12px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
+                    <div id="countSecs" style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: #ff4d8d; text-shadow: 0 0 15px rgba(255, 77, 141, 0.5); line-height: 1;">00</div>
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(252, 231, 243, 0.6); margin-top: 8px; font-weight: 600;">Seconds</div>
+                </div>
+            </div>
+
+            <!-- Total Units Live Running Counter Cards -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; width: 100%; max-width: 750px; box-sizing: border-box;">
+                <div style="background: rgba(20, 10, 40, 0.4); border: 1px solid rgba(255, 77, 141, 0.15); border-radius: 14px; padding: 12px; text-align: center;">
+                    <span id="totalHoursCount" style="font-size: 1.25rem; font-weight: 700; color: #ff4d8d;">8,760</span>
+                    <span style="font-size: 12px; color: rgba(252, 231, 243, 0.7); display: block; margin-top: 2px;">Total Hours</span>
+                </div>
+                <div style="background: rgba(20, 10, 40, 0.4); border: 1px solid rgba(255, 77, 141, 0.15); border-radius: 14px; padding: 12px; text-align: center;">
+                    <span id="totalMinsCount" style="font-size: 1.25rem; font-weight: 700; color: #ff4d8d;">525,600</span>
+                    <span style="font-size: 12px; color: rgba(252, 231, 243, 0.7); display: block; margin-top: 2px;">Total Minutes</span>
+                </div>
+                <div style="background: rgba(20, 10, 40, 0.4); border: 1px solid rgba(255, 77, 141, 0.15); border-radius: 14px; padding: 12px; text-align: center;">
+                    <span id="totalSecsCount" style="font-size: 1.25rem; font-weight: 700; color: #ff4d8d;">31,536,000</span>
+                    <span style="font-size: 12px; color: rgba(252, 231, 243, 0.7); display: block; margin-top: 2px;">Total Seconds</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galaxy of Us Constellation Section -->
+        <section style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div style="margin-bottom: 20px; text-align: center;">
+                <h2 style="font-size: clamp(1.8rem, 4vw, 3rem); margin: 0 0 8px 0; color: #fbcfe8; font-weight: 700;">
+                    Galaxy of Us
+                </h2>
+                <p style="color: rgba(255, 77, 141, 0.95); font-size: clamp(0.95rem, 2.5vw, 1.15rem); margin: 0; font-weight: 600;">
+                    click tap to unlock memories i remeber of us
+                </p>
+            </div>
+
+            <!-- Galaxy Display Container -->
+            <div style="position: relative; width: 100%; height: 440px; background: rgba(20, 10, 40, 0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 28px; border: 1px solid rgba(255, 77, 141, 0.3); overflow: hidden; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5); box-sizing: border-box;">
+                <!-- SVG Lines -->
+                <svg id="constellationSvg" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; stroke: rgba(255, 77, 141, 0.4); stroke-width: 1.5; stroke-dasharray: 4 4;"></svg>
+
+                <!-- Memory Nodes Layer -->
+                <div id="starsContainer" style="position: absolute; inset: 0; width: 100%; height: 100%;"></div>
+
+                <div style="position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; font-size: 12px; color: rgba(255, 77, 141, 0.7); pointer-events: none; font-weight: 500;">
+                    ✨ click tap to unlock memories i remeber of us
+                </div>
+            </div>
+        </section>
+
+        <!-- Reason Section -->
+        <section style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div style="width: 100%; background: rgba(20, 10, 40, 0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 40px 24px; border-radius: 28px; border: 1px solid rgba(255, 77, 141, 0.3); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5); box-sizing: border-box; display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(255, 77, 141, 0.15); border: 1px solid rgba(255, 77, 141, 0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(255, 77, 141, 0.3);">
+                    💖
+                </div>
+
+                <h2 style="font-size: clamp(1.4rem, 3.5vw, 2.4rem); color: #fbcfe8; font-weight: 800; margin: 0 0 16px 0; letter-spacing: 0.5px; line-height: 1.25;">
+                   REASON MA TERO YETI PAXI LAGXU JATI BELA NI
+                </h2>
+
+                <p style="font-style: italic; font-size: clamp(1.1rem, 3vw, 1.7rem); color: rgba(255, 77, 141, 0.95); margin: 0; font-weight: 400; line-height: 1.4;">
+                    idk maybe everys single thing
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Interactive Memory Modal Popup -->
+    <div id="memoryModal" style="position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; box-sizing: border-box;">
+        <div id="modalCard" style="background: rgba(20, 10, 40, 0.95); border: 1px solid rgba(255, 77, 141, 0.4); max-width: 480px; width: 100%; padding: 32px 24px; border-radius: 28px; position: relative; text-align: center; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8); transform: scale(0.9); transition: transform 0.3s ease; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;">
+            
+            <button id="closeModalBtn" style="position: absolute; top: 16px; right: 16px; background: rgba(255, 77, 141, 0.15); border: 1px solid rgba(255, 77, 141, 0.3); color: #fbcfe8; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer;">
+                ✕
+            </button>
+
+            <div id="modalIcon" style="font-size: 32px; margin-bottom: 12px;">🎮</div>
+            <h3 id="modalTitle" style="font-size: 1.6rem; color: #fbcfe8; font-weight: 700; margin: 0 0 16px 0;">Title</h3>
+            <p id="modalDesc" style="color: rgba(252, 231, 243, 0.95); font-size: 1.05rem; line-height: 1.6; margin: 0 0 24px 0; font-weight: 400; text-align: center;">Description...</p>
+
+            <button id="modalActionBtn" style="padding: 12px 30px; border-radius: 9999px; background: rgba(255, 77, 141, 0.3); border: 1px solid rgba(255, 77, 141, 0.5); color: #fbcfe8; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                Close Memory
+            </button>
+        </div>
+    </div>
+
+    <!-- Application Script Section -->
+    <script>
+        /* ----------------------------------------------------
+           1. LIVE COUNTER SCRIPT (Calculates from Sept 18, 2025)
+           ---------------------------------------------------- */
+        const meetingDate = new Date('2025-09-18T00:00:00');
+
+        function updateCounter() {
+            const current = new Date();
+            const diffMs = Math.abs(current - meetingDate);
+
+            const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diffMs / (1000 * 60)) % 60);
+            const secs = Math.floor((diffMs / 1000) % 60);
+
+            const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const totalMins = Math.floor(diffMs / (1000 * 60));
+            const totalSecs = Math.floor(diffMs / 1000);
+
+            document.getElementById('countDays').innerText = days;
+            document.getElementById('countHours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('countMins').innerText = String(mins).padStart(2, '0');
+            document.getElementById('countSecs').innerText = String(secs).padStart(2, '0');
+
+            document.getElementById('totalHoursCount').innerText = totalHours.toLocaleString();
+            document.getElementById('totalMinsCount').innerText = totalMins.toLocaleString();
+            document.getElementById('totalSecsCount').innerText = totalSecs.toLocaleString();
+        }
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        /* ----------------------------------------------------
+           2. AMBIENT BACKGROUND PARTICLES (NO AUDIO)
+           ---------------------------------------------------- */
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.7 + 0.3;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#fce7f3';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        /* ----------------------------------------------------
+           3. GALAXY OF US (CUSTOM MEMORY NODES)
+           ---------------------------------------------------- */
+        const memoryNodes = [
+            {
+                id: 1,
+                x: 18,
+                y: 40,
+                title: "Day 1",
+                desc: "we met in a game an kasari kasari we got this close yeti time ma",
+                icon: "🎮"
+            },
+            {
+                id: 2,
+                x: 40,
+                y: 65,
+                title: "1st term paxi",
+                desc: "man yo time maybe hami dherai bolna suru gareko tme gau gathyo ani hami rati rati bolthem k k aunty auxa chudel wala bruhh ani ta darauthis kya danger.",
+                icon: "👻"
+            },
+            {
+                id: 3,
+                x: 62,
+                y: 30,
+                title: "bihana samma boleko",
+                desc: "bro suru ma ka veteko thorai thorai bolda we literally used to mula bihana 5 baje samma 6 baje samma 14 15 hours at once tesari bolthem lol and asti vakhar 5 nbaje samma pani tyo vanda paila 5 baje samma basda ma itti ni nsatueko btw walk ma gayera",
+                icon: "🌅"
+            },
+            {
+                id: 4,
+                x: 84,
+                y: 55,
+                title: "favourite memory together",
+                desc: "favourite ta testo kei xaina man every time is fun time ta sanga",
+                icon: "💖"
+            }
+        ];
+
+        const starsContainer = document.getElementById('starsContainer');
+        const constellationSvg = document.getElementById('constellationSvg');
+
+        function renderGalaxy() {
+            starsContainer.innerHTML = '';
+            let points = [];
+
+            memoryNodes.forEach((node) => {
+                const px = node.x;
+                const py = node.y;
+                points.push({ x: px, y: py });
+
+                const starEl = document.createElement('div');
+                starEl.style.position = 'absolute';
+                starEl.style.left = `${px}%`;
+                starEl.style.top = `${py}%`;
+                starEl.style.transform = 'translate(-50%, -50%)';
+                starEl.style.cursor = 'pointer';
+                starEl.style.zIndex = '20';
+
+                starEl.innerHTML = `
+                    <div style="position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255, 77, 141, 0.25); border: 1.5px solid rgba(255, 77, 141, 0.6); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 16px rgba(255, 77, 141, 0.4); transition: transform 0.3s ease;">
+                            ${node.icon}
+                        </div>
+                        <span style="position: absolute; top: 54px; white-space: nowrap; font-size: 11px; font-weight: 600; color: #fbcfe8; background: rgba(11, 4, 22, 0.9); padding: 4px 10px; border-radius: 9999px; border: 1px solid rgba(255, 77, 141, 0.3); box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+                            ${node.title}
+                        </span>
+                    </div>
+                `;
+
+                starEl.addEventListener('click', () => openMemoryModal(node));
+                starsContainer.appendChild(starEl);
+            });
+
+            let svgContent = '';
+            for (let i = 0; i < points.length - 1; i++) {
+                svgContent += `<line x1="${points[i].x}%" y1="${points[i].y}%" x2="${points[i+1].x}%" y2="${points[i+1].y}%" />`;
+            }
+            constellationSvg.innerHTML = svgContent;
+        }
+
+        renderGalaxy();
+
+        /* ----------------------------------------------------
+           4. MEMORY MODAL CONTROLS
+           ---------------------------------------------------- */
+        const memoryModal = document.getElementById('memoryModal');
+        const modalCard = document.getElementById('modalCard');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+
+        function openMemoryModal(node) {
+            modalIcon.innerText = node.icon;
+            modalTitle.innerText = node.title;
+            modalDesc.innerText = node.desc;
+
+            memoryModal.style.opacity = '1';
+            memoryModal.style.pointerEvents = 'auto';
+            modalCard.style.transform = 'scale(1)';
+        }
+
+        function closeMemoryModal() {
+            memoryModal.style.opacity = '0';
+            memoryModal.style.pointerEvents = 'none';
+            modalCard.style.transform = 'scale(0.9)';
+        }
+
+        document.getElementById('closeModalBtn').addEventListener('click', closeMemoryModal);
+        document.getElementById('modalActionBtn').addEventListener('click', closeMemoryModal);
+        memoryModal.addEventListener('click', (e) => {
+            if (e.target === memoryModal) closeMemoryModal();
+        });
+    </script>
+</body>
+</html>
